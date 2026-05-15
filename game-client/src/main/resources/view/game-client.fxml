@@ -30,8 +30,6 @@
 
                 <CheckBox fx:id="rankedMatchCheckBox" text="Ranked" />
 
-                <!-- TODO 1: Add the match summary label described in the README. -->
-
                 <Label text="Difficulty:" />
                 <ComboBox fx:id="difficultyComboBox"
                           prefWidth="120" />
@@ -53,6 +51,7 @@
                 <Label fx:id="playerLabel" text="Player: Player" />
                 <Label fx:id="opponentLabel" text="Opponent: Opponent" />
                 <Label fx:id="winnerLabel" text="Winner: TBD" />
+                <Label fx:id="matchSummaryLabel" text="Summary: No match" />
             </HBox>
 
             <HBox spacing="10">

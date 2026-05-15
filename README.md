@@ -1,3 +1,4 @@
+[![Open in Codespaces](https://classroom.github.com/assets/launch-codespace-2972f46106e565e64193e422d61a12cf1da4916b45550586e14ef0a7c637dd04.svg)](https://classroom.github.com/open-in-codespaces?assignment_repo_id=23910787)
 # JavaFX + gRPC 1v1 Game Lab
 
 ## GitHub Classroom Assignment
@@ -454,23 +455,46 @@ Keep your feedback respectful, specific, and useful.
 Answer these questions in your pull request or in a short reflection file:
 
 1. What is the purpose of FXML in this project?
-2. What is the controller responsible for?
-3. What is the model responsible for?
-4. What is the gRPC server responsible for?
-5. Why should JavaFX network calls run inside a `Task` instead of directly in the button handler?
-6. What changed in the `.proto` file?
-7. Why do both the client and server need matching `.proto` files?
-8. What does Maven regenerate after a `.proto` change?
-9. How did you complete the FXML TODO?
-10. How did you complete the MVC/model TODO?
-11. How did you complete the controller TODO?
-12. How did you complete the gRPC client TODO?
-13. How did you complete the gRPC server TODO?
-14. How did you make the model completed-match counter thread-safe?
-15. How did you make JavaFX UI updates safe from background threads?
-16. How did you make server statistics safe for concurrent gRPC requests?
-17. Which unit test helped you the most, and why?
+   FXML defines the JavaFX UI layout and separates the interface from the Java logic.
 
+2. What is the controller responsible for?
+   The controller handles user input events like pressing “Join Match” and updates the UI based on model state.
+
+3. What is the model responsible for?
+   The model manages the bulk of the match data like player names, match ID, and completed match count.
+
+4. What is the gRPC server responsible for?
+   The gRPC server connects the JavaFX client to the game server. It handles match requests, picks winners, and returns responses to the client over the network.
+
+5. Why should JavaFX network calls run inside a `Task` instead of directly in the button handler?
+   It’s so that the logic and UI will be separated. Otherwise, network calls will block the thread they run on, and running them on the UI thread would freeze the entire interface until the call completes.
+
+6. What changed in the `.proto` file?
+   A summary field (field number 5) was added to the JoinMatchResponse message.
+
+7. Why do both the client and server need matching `.proto` files?
+   Both the client and server must agree on the same message structure in order to receive and send responses accordingly.
+
+8. What does Maven regenerate after a `.proto` change?
+   Maven regenerates the Java gRPC and protobuf classes (like JoinMatchResponse) from the .proto definition.
+
+9. What shared state exists in this lab?
+   The shared state includes the “completed match” counter in MatchViewModel and the “joined/completed match” counters in MatchStatistics on the server.
+
+10. Why is count++ not thread-safe?
+    It’s because count++ is actually three operations (read, increment, write) and another thread can read the old value between those steps, causing lost updates and incorrect values.
+
+11. How does AtomicInteger help with thread safety?
+    AtomicInteger reads, modifies, and writes in a single operation so that no updates can be lost between threads.
+
+12. Why might a gRPC server need thread-safe shared data structures?
+    A gRPC server handles multiple requests at the same time, meaning shared counters or maps must be thread-safe or else different threads will corrupt the data.
+
+13. Why should JavaFX controls be updated on the JavaFX Application Thread?
+    JavaFX controls are not thread-safe and can behave unpredictably or throw exceptions if modified from any thread other than the JavaFX Application Thread.
+
+14. Which unit test helped you the most, and why?
+    The MatchViewModelTest helped the most because it clearly showed exactly what format the match summary needed to be in.
 ---
 
 # GitHub Classroom Notes

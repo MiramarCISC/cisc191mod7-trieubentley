@@ -64,9 +64,7 @@ public class GameController {
         boolean ranked = rankedMatchCheckBox.isSelected();
 
         statusLabel.setText("Status: Joining match...");
-        matchLog.appendText("Joining " + (ranked ? "ranked" : "casual")
-                + " match as " + playerName
-                + " on " + difficulty + " difficulty...\n");
+        matchLog.appendText(buildJoinLogMessage(playerName, difficulty, ranked) + "\n");
 
         Task<JoinMatchResponse> task = grpcClient.joinMatchTask(
                 playerName,
@@ -197,34 +195,30 @@ public class GameController {
     }
 
     /**
-     * TODO 3: Complete this controller helper.
-     *
-     * Return exactly:
-     * Joining ranked match as Ada on Hard difficulty...
-     * or:
-     * Joining casual match as Ada on Normal difficulty...
-     *
-     * Requirements:
-     * - Use "Player" when playerName is null or blank.
-     * - Use "Normal" when difficulty is null or blank.
-     * - Trim playerName and difficulty.
+     * TODO 3: Controller helper that builds the join log message.
+     * Format: Joining ranked match as Ada on Hard difficulty...
      */
     public static String buildJoinLogMessage(String playerName, String difficulty, boolean ranked) {
-        return "TODO: build join log message";
+        String effectivePlayer = (playerName == null || playerName.isBlank()) ? "Player" : playerName.trim();
+        String effectiveDifficulty = (difficulty == null || difficulty.isBlank()) ? "Normal" : difficulty.trim();
+        String rankedLabel = ranked ? "ranked" : "casual";
+
+        return "Joining " + rankedLabel + " match as " + effectivePlayer
+                + " on " + effectiveDifficulty + " difficulty...";
     }
 
     /**
-     * TODO 8: Complete this helper so UI updates are safe from any thread.
-     *
-     * JavaFX controls must be changed on the JavaFX Application Thread.
-     * Requirements:
-     * - If action is null, do nothing.
-     * - If already on the JavaFX Application Thread, run action immediately.
-     * - Otherwise, schedule it with Platform.runLater(action).
+     * TODO 8: Safely routes UI updates to the JavaFX Application Thread.
+     * If already on the FX thread, runs immediately; otherwise uses Platform.runLater.
      */
     public static void runOnFxThread(Runnable action) {
-        if (action != null) {
+        if (action == null) {
+            return;
+        }
+        if (Platform.isFxApplicationThread()) {
             action.run();
+        } else {
+            Platform.runLater(action);
         }
     }
 
