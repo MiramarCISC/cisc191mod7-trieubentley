@@ -33,7 +33,13 @@ public class GameGrpcClient {
         return new Task<>() {
             @Override
             protected JoinMatchResponse call() {
+<<<<<<< HEAD
+                JoinMatchRequest request =
+                        buildJoinMatchRequest(playerName, difficulty, ranked);
+
+=======
                 JoinMatchRequest request = buildJoinMatchRequest(playerName, difficulty, ranked);
+>>>>>>> 5c7e5d2cb4f798d0f6c151274b60aab884c6d06b
                 return blockingStub.joinMatch(request);
             }
         };
@@ -42,6 +48,27 @@ public class GameGrpcClient {
     /**
      * TODO 4: Builds a JoinMatchRequest with safe defaults for blank/null inputs.
      */
+<<<<<<< HEAD
+    public static JoinMatchRequest buildJoinMatchRequest(
+            String playerName,
+            String difficulty,
+            boolean ranked
+    ) {
+
+        String safePlayer =
+                (playerName == null || playerName.isBlank())
+                        ? "Player"
+                        : playerName.trim();
+
+        String safeDifficulty =
+                (difficulty == null || difficulty.isBlank())
+                        ? "Normal"
+                        : difficulty.trim();
+
+        return JoinMatchRequest.newBuilder()
+                .setPlayerName(safePlayer)
+                .setDifficulty(safeDifficulty)
+=======
     public static JoinMatchRequest buildJoinMatchRequest(String playerName, String difficulty, boolean ranked) {
         String effectivePlayer = (playerName == null || playerName.isBlank()) ? "Player" : playerName.trim();
         String effectiveDifficulty = (difficulty == null || difficulty.isBlank()) ? "Normal" : difficulty.trim();
@@ -49,6 +76,7 @@ public class GameGrpcClient {
         return JoinMatchRequest.newBuilder()
                 .setPlayerName(effectivePlayer)
                 .setDifficulty(effectiveDifficulty)
+>>>>>>> 5c7e5d2cb4f798d0f6c151274b60aab884c6d06b
                 .setRanked(ranked)
                 .build();
     }

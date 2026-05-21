@@ -1,4 +1,8 @@
+<<<<<<< HEAD
+[![Open in Codespaces](https://classroom.github.com/assets/launch-codespace-2972f46106e565e64193e422d61a12cf1da4916b45550586e14ef0a7c637dd04.svg)](https://classroom.github.com/open-in-codespaces?assignment_repo_id=23964294)
+=======
 [![Open in Codespaces](https://classroom.github.com/assets/launch-codespace-2972f46106e565e64193e422d61a12cf1da4916b45550586e14ef0a7c637dd04.svg)](https://classroom.github.com/open-in-codespaces?assignment_repo_id=23910787)
+>>>>>>> 5c7e5d2cb4f798d0f6c151274b60aab884c6d06b
 # JavaFX + gRPC 1v1 Game Lab
 
 ## GitHub Classroom Assignment
